@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>😵 SCHOOL CONFESSIONS 😵</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@700;800;900&family=Black+Ops+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --lime:   #C8FF00;
+  --hot:    #FF2D78;
+  --cyan:   #00FFEA;
+  --yellow: #FFE500;
+  --orange: #FF7A00;
+  --purple: #BF00FF;
+  --bg:     #0A0A0A;
+  --card:   #111111;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family:'Nunito',sans-serif;
+  background:var(--bg);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ===== BG ===== */
+.bg-chaos {
+  position:fixed; inset:0; z-index:0;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(200,255,0,0.07) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(255,45,120,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(0,255,234,0.05) 0%, transparent 60%),
+    #0A0A0A;
+  overflow:hidden;
+}
+.bg-chaos::before {
+  content:'';
+  position:absolute; inset:0;
+  background-image:radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size:30px 30px;
+}
+.bg-chaos::after {
+  content:'';
+  position:absolute; inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.05) 3px,rgba(0,0,0,0.05) 4px);
+  pointer-events:none;
+}
+
+/* Blobs */
+.blob {
+  position:fixed; border-radius:50%;
+  filter:blur(80px); pointer-events:none; z-index:0;
+  animation:blobPulse 6s infinite alternate ease-in-out;
+}
+@keyframes blobPulse {
+  0%  {transform:scale(1) translate(0,0);}
+  100%{transform:scale(1.3) translate(30px,-20px);}
+}
+
+/* Floaters */
+.floater {
+  position:fixed; pointer-events:none; z-index:1;
+  animation:floatUp linear infinite; opacity:0.35;
+}
+@keyframes floatUp {
+  0%  {transform:translateY(105vh) rotate(0deg);opacity:0;}
+  5%  {opacity:0.35;}
+  95% {opacity:0.35;}
+  100%{transform:translateY(-10vh) rotate(720deg);opacity:0;}
+}
+
+/* ===== APP ===== */
+#app {
+  position:relative; z-index:10;
+  min-height:100vh;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:20px;
+}
+
+/* ===== SCREENS ===== */
+.screen{display:none; width:100%; max-width:680px;}
+.screen.active{
+  display:block;
+  animation:smashIn 0.45s cubic-bezier(.17,.67,.35,1.3);
+}
+@keyframes smashIn{
+  0%  {transform:scale(0.5) rotate(-8deg);opacity:0;}
+  60% {transform:scale(1.06) rotate(2deg);}
+  100%{transform:scale(1) rotate(0);opacity:1;}
+}
+
+/* ===== CARD ===== */
+.card {
+  background:var(--card);
+  border-radius:24px;
+  padding:40px 36px;
+  position:relative; overflow:hidden;
+  border:2px solid rgba(255,255,255,0.06);
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+}
+.card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--lime),var(--hot),var(--cyan),var(--yellow),var(--purple));
+  background-size:300% 100%;
+  animation:rainbowSlide 3s linear infinite;
+}
+@keyframes rainbowSlide{0%{background-position:0%}100%{background-position:300%}}
+.card::after {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse at 70% 10%, rgba(200,255,0,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 90%, rgba(255,45,120,0.04) 0%, transparent 60%);
+  pointer-events:none;
+}
+
+/* ===== WELCOME ===== */
+.welcome-emojis {
+  text-align:center; font-size:3.5rem;
+  margin-bottom:6px; line-height:1;
+  animation:spinBounce 2s ease-in-out infinite;
+}
+@keyframes spinBounce{
+  0%,100%{transform:rotate(-10deg) scale(1);}
+  25%    {transform:rotate(10deg) scale(1.15);}
+  50%    {transform:rotate(-5deg) scale(0.95);}
+  75%    {transform:rotate(8deg) scale(1.1);}
+}
+
+.site-title {
+  font-family:'Black Ops One',cursive;
+  text-align:center; line-height:1.1;
+  margin-bottom:6px; letter-spacing:2px;
+}
+.t1 {
+  display:block; font-size:2.8rem;
+  color:var(--lime);
+  text-shadow:0 0 20px var(--lime),0 0 40px rgba(200,255,0,0.4);
+  position:relative;
+}
+.t2 {
+  display:block; font-size:2rem;
+  color:var(--hot);
+  text-shadow:0 0 20px var(--hot),0 0 40px rgba(255,45,120,0.4);
+}
+
+/* Glitch */
+.glitch{position:relative;}
+.glitch::before,.glitch::after{
+  content:attr(data-text);
+  position:absolute; top:0; left:0;
+  width:100%; overflow:hidden;
+  font-size:inherit; font-family:inherit; letter-spacing:inherit;
+}
+.glitch::before{color:var(--cyan);left:2px;animation:g1 3s infinite;clip-path:polygon(0 30%,100% 30%,100% 55%,0 55%);}
+.glitch::after {color:var(--hot);left:-2px;animation:g2 3s infinite;clip-path:polygon(0 65%,100% 65%,100% 80%,0 80%);}
+@keyframes g1{0%,90%,100%{transform:translate(0);opacity:0;}92%{transform:translate(-3px,1px);opacity:1;}94%{transform:translate(3px,-1px);opacity:1;}96%{transform:translate(0);opacity:0;}}
+@keyframes g2{0%,88%,100%{transform:translate(0);opacity:0;}90%{transform:translate(3px,2px);opacity:1;}93%{transform:translate(-3px,-2px);opacity:1;}95%{transform:translate(0);opacity:0;}}
+
+.subtitle {
+  text-align:center; color:rgba(255,255,255,0.4);
+  font-size:0.85rem; font-weight:900;
+  margin-bottom:28px; letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+
+.name-label {
+  display:block; color:var(--lime);
+  font-weight:900; font-size:1rem;
+  margin-bottom:10px;
+  text-transform:uppercase; letter-spacing:1px;
+}
+.name-label em{color:var(--hot);font-style:normal;}
+
+.name-input {
+  width:100%; padding:16px 20px;
+  background:rgba(255,255,255,0.05);
+  border:2px solid rgba(255,255,255,0.1);
+  border-radius:14px;
+  font-family:'Nunito',sans-serif;
+  font-size:1.15rem; font-weight:800;
+  color:white; outline:none;
+  transition:all 0.3s; margin-bottom:20px;
+}
+.name-input::placeholder{color:rgba(255,255,255,0.2);}
+.name-input:focus{
+  border-color:var(--lime);
+  background:rgba(200,255,0,0.05);
+  box-shadow:0 0 0 4px rgba(200,255,0,0.1),0 0 20px rgba(200,255,0,0.1);
+}
+
+.btn-start {
+  width:100%; padding:20px;
+  background:var(--lime); border:none;
+  border-radius:14px;
+  font-family:'Black Ops One',cursive;
+  font-size:1.5rem; color:#000;
+  cursor:pointer; transition:all 0.2s;
+  letter-spacing:2px;
+  box-shadow:0 0 30px rgba(200,255,0,0.5),0 6px 0 rgba(80,150,0,0.9);
+  position:relative; overflow:hidden;
+}
+.btn-start::before{
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,0.4) 50%,transparent 70%);
+  transform:translateX(-100%); transition:transform 0.5s;
+}
+.btn-start:hover{transform:translateY(-4px);box-shadow:0 0 50px rgba(200,255,0,0.7),0 10px 0 rgba(80,150,0,0.9);}
+.btn-start:hover::before{transform:translateX(100%);}
+.btn-start:active{transform:translateY(2px);box-shadow:0 0 20px rgba(200,255,0,0.5),0 2px 0 rgba(80,150,0,0.9);}
+
+.chaos-tags {
+  display:flex; gap:8px; flex-wrap:wrap;
+  margin-top:20px; justify-content:center;
+}
+.ctag {
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:6px; padding:7px 13px;
+  font-size:0.75rem; font-weight:900;
+  text-transform:uppercase; letter-spacing:0.5px;
+  color:rgba(255,255,255,0.45);
+}
+
+/* ===== PROGRESS ===== */
+.prog-wrap {
+  background:rgba(255,255,255,0.06);
+  border-radius:4px; height:6px;
+  margin-bottom:24px; position:relative;
+}
+.prog-fill {
+  height:100%;
+  background:linear-gradient(90deg,var(--lime),var(--cyan));
+  border-radius:4px;
+  transition:width 0.6s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 0 12px var(--lime),0 0 24px rgba(200,255,0,0.3);
+  position:relative;
+}
+.prog-fill::after{
+  content:'⚡'; position:absolute;
+  right:-14px; top:-11px; font-size:1.2rem;
+  animation:zapPulse 0.8s infinite alternate;
+}
+@keyframes zapPulse{0%{filter:brightness(1)}100%{filter:brightness(2)}}
+
+.q-meta{
+  display:flex; justify-content:space-between;
+  align-items:center; margin-bottom:18px;
+}
+.q-counter{
+  font-family:'Boogaloo',cursive;
+  font-size:1.1rem; color:var(--cyan);
+  text-shadow:0 0 10px var(--cyan);
+}
+.q-score{
+  background:rgba(255,229,0,0.1);
+  border:1.5px solid rgba(255,229,0,0.3);
+  border-radius:6px; padding:5px 12px;
+  font-weight:900; font-size:0.85rem;
+  color:var(--yellow);
+}
+
+.q-emoji{
+  font-size:4rem; text-align:center;
+  display:block; margin-bottom:14px;
+  animation:chaosWiggle 0.7s infinite alternate;
+  filter:drop-shadow(0 0 12px rgba(255,255,255,0.3));
+}
+@keyframes chaosWiggle{
+  0%  {transform:rotate(-12deg) scale(1) translateY(0);}
+  33% {transform:rotate(12deg) scale(1.15) translateY(-6px);}
+  66% {transform:rotate(-6deg) scale(0.95) translateY(3px);}
+  100%{transform:rotate(10deg) scale(1.1) translateY(-4px);}
+}
+
+.q-text{
+  font-family:'Boogaloo',cursive;
+  font-size:1.65rem; color:white;
+  text-align:center; margin-bottom:30px;
+  line-height:1.3; min-height:75px;
+  display:flex; align-items:center; justify-content:center;
+}
+
+.ans-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+.btn-yes,.btn-no{
+  padding:22px 10px; border:none;
+  border-radius:14px;
+  font-family:'Black Ops One',cursive;
+  font-size:1.7rem; cursor:pointer;
+  transition:all 0.2s cubic-bezier(.34,1.56,.64,1);
+  position:relative; overflow:hidden;
+  letter-spacing:2px;
+}
+.btn-yes{
+  background:var(--lime); color:#000;
+  box-shadow:0 0 25px rgba(200,255,0,0.5),0 5px 0 rgba(80,150,0,0.9);
+}
+.btn-no{
+  background:var(--hot); color:#fff;
+  box-shadow:0 0 25px rgba(255,45,120,0.5),0 5px 0 rgba(130,0,50,0.9);
+}
+.btn-yes:hover{transform:translateY(-5px) rotate(-1deg) scale(1.04);box-shadow:0 0 40px rgba(200,255,0,0.8),0 10px 0 rgba(80,150,0,0.9);}
+.btn-no:hover {transform:translateY(-5px) rotate(1deg) scale(1.04);box-shadow:0 0 40px rgba(255,45,120,0.8),0 10px 0 rgba(130,0,50,0.9);}
+.btn-yes:active,.btn-no:active{transform:translateY(2px);}
+
+/* ===== REACTION ===== */
+.rx-emoji{
+  font-size:5.5rem; text-align:center;
+  display:block; margin-bottom:14px;
+  animation:rxPop 0.4s cubic-bezier(.34,1.8,.64,1);
+}
+@keyframes rxPop{0%{transform:scale(0) rotate(-20deg)}100%{transform:scale(1) rotate(0)}}
+
+.rx-msg{
+  font-family:'Boogaloo',cursive;
+  font-size:1.6rem; color:white;
+  text-align:center; line-height:1.35;
+  margin-bottom:28px;
+  animation:slideUp 0.4s ease;
+}
+@keyframes slideUp{0%{transform:translateY(25px);opacity:0}100%{transform:translateY(0);opacity:1}}
+.rx-name{color:var(--lime);text-shadow:0 0 15px rgba(200,255,0,0.6);font-style:italic;}
+
+.btn-next{
+  width:100%; padding:18px;
+  background:var(--cyan); border:none;
+  border-radius:14px;
+  font-family:'Black Ops One',cursive;
+  font-size:1.35rem; color:#000;
+  cursor:pointer; transition:all 0.2s;
+  box-shadow:0 0 25px rgba(0,255,234,0.5),0 5px 0 rgba(0,120,110,0.9);
+  letter-spacing:2px;
+}
+.btn-next:hover{transform:translateY(-3px);box-shadow:0 0 45px rgba(0,255,234,0.8),0 10px 0 rgba(0,120,110,0.9);}
+
+/* ===== RESULT ===== */
+.result-header{
+  font-family:'Black Ops One',cursive;
+  font-size:1.1rem; color:var(--yellow);
+  text-align:center; margin-bottom:18px;
+  text-shadow:0 0 15px var(--yellow);
+  letter-spacing:1px;
+  animation:textFlicker 4s infinite;
+}
+@keyframes textFlicker{0%,92%,96%,100%{opacity:1;}93%,95%{opacity:0.3;}}
+
+.badge-box{
+  border-radius:18px; padding:24px;
+  text-align:center; margin-bottom:20px;
+  position:relative; overflow:hidden;
+  border:2px solid rgba(255,255,255,0.15);
+}
+.badge-box::before{
+  content:'';
+  position:absolute; inset:0;
+  background:radial-gradient(circle at 50% 0%,rgba(255,255,255,0.1),transparent 70%);
+}
+.badge-emoji{font-size:4rem;display:block;margin-bottom:8px;animation:bounce 1.2s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.badge-title{
+  font-family:'Black Ops One',cursive;
+  font-size:1.4rem; color:white;
+  margin-bottom:6px; letter-spacing:1px;
+}
+.badge-desc{color:rgba(255,255,255,0.75);font-weight:800;font-size:0.88rem;line-height:1.4;}
+
+.stats{
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:10px; margin-bottom:18px;
+}
+.stat{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px; padding:16px 10px; text-align:center;
+}
+.stat-n{
+  font-family:'Black Ops One',cursive;
+  font-size:2rem; display:block; margin-bottom:4px;
+}
+.stat-l{
+  color:rgba(255,255,255,0.4);
+  font-size:0.72rem; font-weight:900;
+  text-transform:uppercase; letter-spacing:0.5px;
+}
+
+.traits{margin-bottom:16px;}
+.trait{
+  display:flex; align-items:center; gap:12px;
+  padding:11px 14px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+  border-left:3px solid var(--lime);
+  border-radius:10px; margin-bottom:8px;
+  font-weight:800; color:rgba(255,255,255,0.8);
+  font-size:0.88rem;
+  animation:slideUp 0.4s ease both;
+}
+.trait-i{font-size:1.2rem;}
+
+.motive-box{
+  background:rgba(200,255,0,0.05);
+  border:1.5px solid rgba(200,255,0,0.2);
+  border-radius:14px; padding:20px;
+  text-align:center; margin-bottom:20px;
+}
+.motive-box p{color:white;font-weight:800;font-size:0.93rem;line-height:1.6;}
+.motive-name{
+  color:var(--lime);
+  font-family:'Black Ops One',cursive;
+  font-size:1.05rem;
+  text-shadow:0 0 10px rgba(200,255,0,0.5);
+}
+
+.btn-restart{
+  width:100%; padding:18px;
+  background:var(--hot); border:none;
+  border-radius:14px;
+  font-family:'Black Ops One',cursive;
+  font-size:1.35rem; color:white;
+  cursor:pointer; transition:all 0.2s;
+  box-shadow:0 0 25px rgba(255,45,120,0.5),0 5px 0 rgba(130,0,50,0.9);
+  letter-spacing:2px;
+}
+.btn-restart:hover{transform:translateY(-3px);box-shadow:0 0 45px rgba(255,45,120,0.8),0 10px 0 rgba(130,0,50,0.9);}
+
+/* ===== CONFETTI ===== */
+.cp{
+  position:fixed; pointer-events:none; z-index:999;
+  animation:cpFall linear forwards; border-radius:2px;
+}
+@keyframes cpFall{
+  0%  {transform:translateY(-30px) rotate(0deg) scale(1);opacity:1;}
+  100%{transform:translateY(110vh) rotate(900deg) scale(0.4);opacity:0;}
+}
+
+/* ===== FOOTER ===== */
+footer{
+  position:relative; z-index:10;
+  text-align:center; padding:16px 20px 30px;
+  font-size:0.82rem; font-weight:900;
+  color:rgba(255,255,255,0.22);
+  letter-spacing:1px; text-transform:uppercase;
+}
+.simran-name{
+  background:linear-gradient(135deg,var(--hot),var(--yellow));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  font-family:'Black Ops One',cursive;
+  font-size:1rem; letter-spacing:2px;
+}
+
+/* Shake */
+@keyframes shk{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.shake{animation:shk 0.5s ease;}
+
+/* Responsive */
+@media(max-width:480px){
+  .card{padding:28px 18px;}
+  .t1{font-size:2.2rem;} .t2{font-size:1.6rem;}
+  .q-text{font-size:1.3rem;}
+  .btn-yes,.btn-no{font-size:1.3rem;padding:18px 6px;}
+  .badge-title{font-size:1.1rem;}
+  .rx-msg{font-size:1.35rem;}
+}
+
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:#000;}
+::-webkit-scrollbar-thumb{background:var(--lime);border-radius:3px;}
+</style>
+</head>
+<body>
+
+<div class="bg-chaos"></div>
+<div class="blob" style="width:350px;height:350px;top:-80px;left:-100px;background:rgba(200,255,0,0.06);animation-delay:0s"></div>
+<div class="blob" style="width:280px;height:280px;bottom:-60px;right:-80px;background:rgba(255,45,120,0.07);animation-delay:2s;animation-direction:alternate-reverse"></div>
+<div class="blob" style="width:200px;height:200px;top:40%;left:60%;background:rgba(0,255,234,0.05);animation-delay:4s"></div>
+
+<div id="app">
+
+  <!-- WELCOME -->
+  <div class="screen active" id="screenWelcome">
+    <div class="card">
+      <div class="welcome-emojis">😈🔥💀</div>
+      <h1 class="site-title">
+        <span class="t1 glitch" data-text="SCHOOL">SCHOOL</span>
+        <span class="t2 glitch" data-text="CONFESSIONS">CONFESSIONS</span>
+      </h1>
+      <p class="subtitle">⚡ 10 questions · zero chill · 100% exposed ⚡</p>
+      <label class="name-label">👤 Your name, <em>legend</em> —</label>
+      <input class="name-input" type="text" id="nameInput" placeholder="Don't be shy... type it!" maxlength="24" autocomplete="off">
+      <button class="btn-start" onclick="startGame()">💣 START THE CHAOS</button>
+      <div class="chaos-tags">
+        <span class="ctag">😂 Roast Guaranteed</span>
+        <span class="ctag">🕵️ You'll Be Exposed</span>
+        <span class="ctag">🧾 Epic Report Card</span>
+        <span class="ctag">💀 No Mercy</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUESTION -->
+  <div class="screen" id="screenQuestion">
+    <div class="card">
+      <div class="prog-wrap">
+        <div class="prog-fill" id="progressBar" style="width:0%"></div>
+      </div>
+      <div class="q-meta">
+        <span class="q-counter" id="qCounter">Q 1 / 10</span>
+        <span class="q-score" id="qScore">⭐ 0 pts</span>
+      </div>
+      <span class="q-emoji" id="qEmoji">🤔</span>
+      <div class="q-text" id="qText">Loading...</div>
+      <div class="ans-wrap">
+        <button class="btn-yes" onclick="answer('yes')">✅ YES</button>
+        <button class="btn-no"  onclick="answer('no')">❌ NO</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REACTION -->
+  <div class="screen" id="screenReaction">
+    <div class="card">
+      <span class="rx-emoji" id="rxEmoji">😂</span>
+      <div class="rx-msg" id="rxMsg"></div>
+      <button class="btn-next" onclick="nextQuestion()">NEXT ⚡</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="screen" id="screenResult">
+    <div class="card">
+      <div class="result-header" id="resultHeader">🧾 OFFICIAL REPORT 🧾</div>
+      <div class="badge-box" id="badgeBox">
+        <span class="badge-emoji" id="badgeEmoji">🏆</span>
+        <div class="badge-title" id="badgeTitle"></div>
+        <div class="badge-desc"  id="badgeDesc"></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><span class="stat-n" style="color:var(--lime)" id="rYes">0</span><span class="stat-l">✅ Said YES</span></div>
+        <div class="stat"><span class="stat-n" style="color:var(--hot)"  id="rNo">0</span><span class="stat-l">❌ Said NO</span></div>
+        <div class="stat"><span class="stat-n" style="color:var(--yellow)" id="rFun">0%</span><span class="stat-l">😂 Chaos %</span></div>
+        <div class="stat"><span class="stat-n" style="color:var(--cyan)"  id="rHon">S+</span><span class="stat-l">🕵️ Sus Rank</span></div>
+      </div>
+      <div class="traits" id="traitsList"></div>
+      <div class="motive-box" id="motiveBox"></div>
+      <button class="btn-restart" onclick="restartGame()">🔄 PLAY AGAIN</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Made with 💖 by <span class="simran-name">✨ SIMRAN ✨</span><br>
+  <span style="font-size:0.68rem;opacity:0.5;letter-spacing:0.5px">— for my legendary classmates —</span>
+</footer>
+
+<script>
+// ─── QUESTIONS ───────────────────────────────────────────────
+const questions = [
+  {
+    emoji:"📋",
+    text:"Have you EVER copied someone's homework and then got a BETTER grade than them?",
+    yes:{emoji:"😂👑",msg:`<span class="rx-name">NAME</span> didn't just copy — NAME UPGRADED someone else's work. That is NEXT-LEVEL audacity and we are literally bowing down! 🙇‍♂️👑`},
+    no: {emoji:"👀🤔",msg:`<span class="rx-name">NAME</span> says NO... but the homework that looked IDENTICAL to your benchmate's says otherwise 🕵️ Suuuure!`}
+  },
+  {
+    emoji:"✍️",
+    text:"Do you pretend to take notes but actually just doodle random nonsense the whole time?",
+    yes:{emoji:"🎨😂",msg:`<span class="rx-name">NAME</span>'s notebook is a complete masterpiece of art that has ZERO educational value. The teacher thinks you're a genius 😂✨`},
+    no: {emoji:"🤨📓",msg:`<span class="rx-name">NAME</span> is ACTUALLY taking notes?! In this class?! In this economy?! We need to examine what's happening inside that brain immediately! 🔬`}
+  },
+  {
+    emoji:"✋",
+    text:"Have you raised your hand NOT knowing the answer, just praying the teacher picks someone else?",
+    yes:{emoji:"😂🎲",msg:`<span class="rx-name">NAME</span> gambling with their GPA in real time! Raised the hand, made full eye contact, and internally screamed at the universe to PLEASE move on! 🃏😭`},
+    no: {emoji:"😌🤓",msg:`<span class="rx-name">NAME</span> only raises their hand when they KNOW?! Peak responsible student behaviour. We simply cannot relate but we respect the drip deeply 😌`}
+  },
+  {
+    emoji:"💤",
+    text:"Have you ever slept in class and woken up to the teacher STARING directly at you?",
+    yes:{emoji:"😱💀",msg:`<span class="rx-name">NAME</span> opened their eyes, saw the teacher's face 3 inches away, and their soul LEFT their body! The whole class held their breath! 😭😂`},
+    no: {emoji:"🦎😤",msg:`<span class="rx-name">NAME</span> has never slept in class... OR they sleep with their eyes OPEN like a lizard! We respect both options with our whole hearts! 🦎👏`}
+  },
+  {
+    emoji:"📱",
+    text:"Have you ever texted someone sitting RIGHT NEXT TO YOU instead of just talking?",
+    yes:{emoji:"😂📡",msg:`<span class="rx-name">NAME</span> created a whole separate communication channel for someone 30cm away! Social anxiety? Pure laziness? Absolute GENIUS? YES! 📡😂`},
+    no: {emoji:"🗣️😮",msg:`<span class="rx-name">NAME</span> actually uses their VOICE like a normal human person?! Verbally?! Out loud?! What a radical revolutionary concept! 🔊🤯`}
+  },
+  {
+    emoji:"📺",
+    text:"Have you ever said 'I STUDIED' when you actually spent the whole night watching YouTube?",
+    yes:{emoji:"😂💻",msg:`<span class="rx-name">NAME</span> considers watching 47 videos as 'research.' Technically, not a lie — you studied CONTENT CREATORS. Honestly a very valid life skill! 🎬👀`},
+    no: {emoji:"🤥📊",msg:`<span class="rx-name">NAME</span>... our lie detector just shattered into a million pieces. The WiFi data does not lie, bestie. YouTube was WATCHING you watching it! 😂💀`}
+  },
+  {
+    emoji:"😂",
+    text:"Have you laughed SO hard in class that you fake-coughed to cover it up?",
+    yes:{emoji:"🎭🤣",msg:`<span class="rx-name">NAME</span> did a FULL THEATRICAL PERFORMANCE — started as a laugh, pivoted to a cough, ended in what looked like a medical emergency! Broadway called! 🎭`},
+    no: {emoji:"🧊🤖",msg:`<span class="rx-name">NAME</span> has ice water for blood! Stone cold. Zero emotion. Zero cracks. Are you secretly a robot sent from the future to observe us?! 🤖❄️`}
+  },
+  {
+    emoji:"🌐",
+    text:"Have you blamed the WiFi for not submitting homework that you simply forgot about?",
+    yes:{emoji:"😂📶",msg:`<span class="rx-name">NAME</span> has blamed WiFi, electricity, their dog, a power cut, and the general concept of Monday for homework disasters! An ICON of creative excuses! 🐕📶`},
+    no: {emoji:"😲🏆",msg:`<span class="rx-name">NAME</span> actually DOES homework AND submits it on time?? This is a HISTORICAL EVENT. Someone alert the news channels! Schools have changed! 📺🏆`}
+  },
+  {
+    emoji:"🍕",
+    text:"Do you secretly eat snacks under the desk during class like a little gremlin?",
+    yes:{emoji:"😈🥷",msg:`<span class="rx-name">NAME</span> has developed ninja-level snack-opening skills — zero crinkle, zero sound, zero witnesses! This is a talent. PUT IT ON YOUR RESUME! 🥷😂`},
+    no: {emoji:"😇🥗",msg:`<span class="rx-name">NAME</span> waits for the proper break like a CIVILISED human being?! We are not worthy! We are simply NOT worthy of your discipline! 🙇‍♀️✨`}
+  },
+  {
+    emoji:"💬",
+    text:"Have you ever READ a message, full panicked, and left it on Read for 3+ hours?",
+    yes:{emoji:"😂👻",msg:`<span class="rx-name">NAME</span> read it, entered witness protection, changed their name, moved cities, waited 4 hours, and typed 'oh sorry just saw this!' Pure ART! 👻📱`},
+    no: {emoji:"⚡😲",msg:`<span class="rx-name">NAME</span> replies IMMEDIATELY?! No thinking gap?! No existential crisis before typing?! No draft-delete-retype cycle?! You're genuinely built differently! 🤯✨`}
+  }
+];
+
+// ─── BADGES ──────────────────────────────────────────────────
+const badges = [
+  {range:[0,2],  emoji:"😇", title:"THE SUSPICIOUSLY CLEAN ONE",    desc:"Said NO to everything... a little TOO perfectly. The teacher's secret favourite has arrived 👀",            bg:"linear-gradient(135deg,#0d3a1f,#061a2e)", border:"#2ECC71"},
+  {range:[3,5],  emoji:"🌗", title:"THE BALANCED MENACE",            desc:"Half saint, half gremlin. Somehow the most dangerous combination that has ever existed in a classroom.",   bg:"linear-gradient(135deg,#2d0060,#000d4a)", border:"#BF00FF"},
+  {range:[6,8],  emoji:"🌪️", title:"THE CERTIFIED CHAOS AGENT",     desc:"Maximum chaos, minimum regrets. The class group chat physically NEEDS you to function properly 😂",        bg:"linear-gradient(135deg,#4a1a00,#2a0015)", border:"#FF7A00"},
+  {range:[9,10], emoji:"👑", title:"THE UNDISPUTED LEGEND",           desc:"100% unfiltered human chaos. Schools were never built to handle someone at your level of realness. 🔥",    bg:"linear-gradient(135deg,#3a2200,#2a0025)", border:"#FFE500"}
+];
+
+// ─── TRAITS ──────────────────────────────────────────────────
+const traitsMap = {
+  low:  [{i:"😇",t:"Zero-guilt homework submission (deeply suspicious)"},{i:"🧊",t:"Ice-cold emotional regulation in every class"},{i:"🕵️",t:"Professional secret keeper... or secret doer"}],
+  mid:  [{i:"⚡",t:"Chaos energy perfectly calibrated for maximum fun"},{i:"🎭",t:"Expert multi-tasker: studying AND absolutely not studying"},{i:"🤝",t:"Deeply relatable to every single human on this planet"}],
+  high: [{i:"🥷",t:"Ninja-level under-desk snack concealment skills"},{i:"🎬",t:"YouTube algorithm's most loyal and dedicated customer"},{i:"📡",t:"WiFi's most creative and dedicated scapegoat"}],
+  max:  [{i:"👑",t:"Elected President of the I-Definitely-Did-Not-Do-It Club"},{i:"🔥",t:"Group chat's most chaotic, beloved, and irreplaceable member"},{i:"💀",t:"Living proof that schools are just survival training for life"}]
+};
+
+// ─── MOTIVATIONS ─────────────────────────────────────────────
+const motivations = [
+  n=>`<span class="motive-name">${n}</span>, your chaotic energy is not a bug — it's a FEATURE! Every unforgettable friendship starts with someone exactly like you. Keep slaying! 💛🔥`,
+  n=>`Listen, <span class="motive-name">${n}</span> — every great person in history definitely also slept through a class and blamed WiFi at least once! You're in completely legendary company! 👑✨`,
+  n=>`<span class="motive-name">${n}</span>, these school years are the memories you'll laugh about forever. You're not a mess — you're a MASTERPIECE in glorious progress! Go be brilliant! 🚀💥`,
+  n=>`Hey <span class="motive-name">${n}</span>! You showed up, played the game, got a little exposed — and THAT took real courage! Never change. The class would be painfully boring without you! 😂❤️`
+];
+
+// ─── STATE ───────────────────────────────────────────────────
+let playerName="", currentQ=0, yesCount=0, noCount=0;
+
+// ─── FLOATERS ────────────────────────────────────────────────
+['💀','🔥','😂','⚡','💥','🤣','😈','👀','🧨','🎉','💯','🤯','😵','🫠'].forEach((e,i)=>{
+  const el=document.createElement('div');
+  el.className='floater'; el.textContent=e;
+  el.style.cssText=`left:${(i/14)*100}%;font-size:${1.2+Math.random()*0.8}rem;animation-duration:${9+Math.random()*10}s;animation-delay:${Math.random()*9}s;`;
+  document.body.appendChild(el);
+});
+
+// ─── HELPERS ─────────────────────────────────────────────────
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function startGame(){
+  const inp=document.getElementById('nameInput');
+  const n=inp.value.trim();
+  if(!n){
+    inp.style.borderColor='var(--hot)';
+    inp.style.boxShadow='0 0 0 4px rgba(255,45,120,0.2),0 0 20px rgba(255,45,120,0.3)';
+    inp.placeholder='⚠️ ENTER YOUR NAME FIRST!';
+    inp.classList.remove('shake');
+    void inp.offsetWidth;
+    inp.classList.add('shake');
+    setTimeout(()=>{inp.style.borderColor='';inp.style.boxShadow='';inp.placeholder="Don't be shy... type it!";},2200);
+    return;
+  }
+  playerName=n.charAt(0).toUpperCase()+n.slice(1);
+  currentQ=yesCount=noCount=0;
+  loadQ(); show('screenQuestion');
+}
+
+function loadQ(){
+  const q=questions[currentQ];
+  document.getElementById('qEmoji').textContent=q.emoji;
+  document.getElementById('qText').textContent=q.text;
+  document.getElementById('qCounter').textContent=`Q ${currentQ+1} / ${questions.length}`;
+  document.getElementById('progressBar').style.width=`${(currentQ/questions.length)*100}%`;
+  document.getElementById('qScore').textContent=`⭐ ${(yesCount+noCount)*10} pts`;
+}
+
+function answer(choice){
+  const q=questions[currentQ];
+  const d=choice==='yes'?q.yes:q.no;
+  if(choice==='yes') yesCount++; else noCount++;
+  document.getElementById('rxEmoji').textContent=d.emoji;
+  document.getElementById('rxMsg').innerHTML=d.msg.replace(/NAME/g,playerName);
+  burst(choice==='yes'?'#C8FF00':'#FF2D78',18);
+  show('screenReaction');
+}
+
+function nextQuestion(){
+  currentQ++;
+  if(currentQ>=questions.length) showResults();
+  else{loadQ(); show('screenQuestion');}
+}
+
+function showResults(){
+  const pct=Math.round((yesCount/questions.length)*100);
+  let badge=badges[0];
+  for(const b of badges) if(yesCount>=b.range[0]&&yesCount<=b.range[1]){badge=b;break;}
+
+  document.getElementById('resultHeader').innerHTML=
+    `🧾 OFFICIAL REPORT FOR <span style="color:var(--lime);text-shadow:0 0 15px var(--lime)">${playerName.toUpperCase()}</span> 🧾`;
+
+  const bb=document.getElementById('badgeBox');
+  bb.style.background=badge.bg;
+  bb.style.borderColor=badge.border;
+  bb.style.boxShadow=`0 0 30px ${badge.border}44`;
+  document.getElementById('badgeEmoji').textContent=badge.emoji;
+  document.getElementById('badgeTitle').textContent=badge.title;
+  document.getElementById('badgeDesc').textContent=badge.desc;
+
+  document.getElementById('rYes').textContent=yesCount;
+  document.getElementById('rNo').textContent=noCount;
+  document.getElementById('rFun').textContent=`${pct}%`;
+
+  const ranks=['S+','A+','A','B+','B','C','D'];
+  document.getElementById('rHon').textContent=ranks[Math.min(6,Math.floor(pct/15))];
+
+  const tSet=yesCount<=2?traitsMap.low:yesCount<=5?traitsMap.mid:yesCount<=8?traitsMap.high:traitsMap.max;
+  document.getElementById('traitsList').innerHTML=tSet.map((t,i)=>
+    `<div class="trait" style="animation-delay:${i*0.1}s"><span class="trait-i">${t.i}</span>${t.t}</div>`
+  ).join('');
+
+  const mot=motivations[Math.floor(Math.random()*motivations.length)](playerName);
+  document.getElementById('motiveBox').innerHTML=`<p>💌 ${mot}</p>`;
+
+  show('screenResult');
+  megaConfetti();
+}
+
+function restartGame(){
+  currentQ=yesCount=noCount=0;
+  document.getElementById('nameInput').value='';
+  show('screenWelcome');
+}
+
+// ─── CONFETTI ────────────────────────────────────────────────
+function burst(color,count){
+  const cols=[color,'#ffffff','#FFE500'];
+  for(let i=0;i<count;i++){
+    setTimeout(()=>{
+      const c=document.createElement('div'); c.className='cp';
+      const sz=6+Math.random()*8;
+      c.style.cssText=`left:${20+Math.random()*60}vw;top:-10px;width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random()*cols.length)]};border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${1+Math.random()*1.5}s;`;
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),3000);
+    },i*30);
+  }
+}
+
+function megaConfetti(){
+  const cols=['#C8FF00','#FF2D78','#00FFEA','#FFE500','#FF7A00','#BF00FF','#ffffff'];
+  for(let i=0;i<150;i++){
+    setTimeout(()=>{
+      const c=document.createElement('div'); c.className='cp';
+      const sz=5+Math.random()*12;
+      c.style.cssText=`left:${Math.random()*100}vw;top:-20px;width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random()*cols.length)]};border-radius:${Math.random()>.5?'50%':'3px'};animation-duration:${1.5+Math.random()*3}s;animation-delay:${Math.random()*0.5}s;`;
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),5000);
+    },i*22);
+  }
+}
+
+document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')startGame();});
+</script>
+</body>
+</html>
